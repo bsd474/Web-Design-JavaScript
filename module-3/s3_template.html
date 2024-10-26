@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Select Menu Calculator</title>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+
+      .container {
+        vertical-align: middle;
+        text-align: center;
+        display: inline-block;
+        border: 1px solid black;
+        width: 30%;
+        height: 300px;
+        line-height: 300px;
+      }
+
+      #display {
+        font-size: 70px;
+        color: #3498db;
+      }
+
+      #instructions {
+        font-size: 20px;
+        color: #3498db;
+        padding: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Select Menu Calculator</h1>
+    <div id="instructions">
+      Select a number from the menus on the right and the left, and my script
+      will add them together for you!
+    </div>
+    <div class="container">
+      <select id="n1">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select>
+    </div>
+    <div class="container" id="display"></div>
+    <div class="container">
+      <select id="n2">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select>
+    </div>
+
+    <script>
+      let n1 = document.getElementById("n1");
+      let n2 = document.getElementById("n2");
+      let display = document.getElementById("display");
+      // console.log(n1, n2, display);
+      n1.addEventListener("change", function () {
+        display.textContent = +n1.value + +n2.value;
+      });
+      n2.addEventListener("change", function () {
+        display.textContent = +n1.value + +n2.value;
+      });
+    </script>
+  </body>
+</html>

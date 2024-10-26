@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Event Listener Example</title>
+    <style>
+        /* Basic page styling */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        /* Style for the button */
+        #showMessageButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Style for the hidden div */
+        #message {
+            display: none;  /* Hide the div initially */
+            font-size: 60px; /* Large text */
+            font-family: "Arial Black", "Impact", sans-serif;
+            color: #3498db;  /* Bright blue color */
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Hello World Page</h1>
+
+<!-- Button to trigger the JavaScript event -->
+<button id="showMessageButton">Click Me!</button>
+
+<!-- Hidden div that will display the message -->
+<!-- It will be hidden to start -->
+<div id="message">Hello World</div>
+
+<script>
+    // 1. Select the button and the div using JavaScript
+    // Create a const for the button and for the div
+    const showMsgBtn = document.getElementById('showMessageButton');
+    // 2. Add an event listener to the button
+    showMsgBtn.addEventListener('click', () => {
+        const message = document.getElementById('message');
+        // 3. When the button is clicked, display the hidden div
+        // (HINT: This code goes inside the event listener)
+        // (HINT #2: you are going to change the message div style.display to "block")
+        message.style.display = 'block';
+    });
+</script>
+</body>
+</html>

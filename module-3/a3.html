@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="script.js" defer></script>
+    <!-- I used defer here to load the script after HTML content loaded -->
+    <title>Area of a Triangle</title>
+  </head>
+  <body>
+    <!-- i used semantic tags below header, main, and section etc -->
+    <header>
+      <h2>Solve for Area of Triangle</h2>
+      <span>Assignments A3 - Simple Calculator</span>
+    </header>
+    <main>
+      <section class="container">
+        <div class="content inputs">
+          <input type="number" id="baseInput" placeholder="Base = b" />
+          <input type="number" id="hightInput" placeholder="Hight = h" />
+          <button type="submit" id="resultBtn">Result</button>
+        </div>
+        <div class="content result">
+          <p id="result"></p>
+        </div>
+        <!-- div for triangle -->
+        <div class="content svg">
+          <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+            <!-- drawing triangle without background -->
+            <polygon
+              points="50,150 250,150 100,50"
+              fill="none"
+              stroke="black"
+              stroke-width="2"
+            />
+
+            <!-- The base line b-->
+            <line
+              x1="50"
+              y1="150"
+              x2="250"
+              y2="150"
+              stroke="black"
+              stroke-width="2"
+            />
+            <!-- Base line text-->
+            <text
+              x="145"
+              y="170"
+              font-size="20"
+              text-anchor="middle"
+              fill="red"
+            >
+              b
+            </text>
+
+            <!-- Hight dashed line-->
+            <line
+              x1="100"
+              y1="150"
+              x2="100"
+              y2="50"
+              stroke="black"
+              stroke-width="1"
+              stroke-dasharray="5,5"
+            />
+            <!-- Hight text-->
+            <text x="105" y="100" font-size="20" fill="red">h</text>
+
+            <!-- 90-degree square -->
+            <rect
+              x="100"
+              y="140"
+              width="10"
+              height="10"
+              fill="none"
+              stroke="black"
+              stroke-width="1"
+            />
+
+            <!-- Side line c -->
+            <line
+              x1="250"
+              y1="150"
+              x2="100"
+              y2="50"
+              stroke="black"
+              stroke-width="2"
+            />
+            <text x="180" y="100" font-size="20" fill="black">c</text>
+
+            <!-- ٍSide line a -->
+            <line
+              x1="50"
+              y1="150"
+              x2="100"
+              y2="50"
+              stroke="black"
+              stroke-width="2"
+            />
+            <text x="55" y="100" font-size="20" fill="black">a</text>
+          </svg>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div>Bader Aldossary 2024 &copy; A3 - Simple Calculator</div>
+    </footer>
+  </body>
+</html>
