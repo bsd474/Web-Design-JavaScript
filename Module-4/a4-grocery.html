@@ -33,20 +33,21 @@ Crated by Bader Aldossary on 10/31/2024
       // Initial empty grocery list
       const groceries = [];
       // Update the display
-      let updateDisplay = (document.getElementById("groceryList").textContent =
-        groceries.join(", "));
+      //   let updateDisplay = ();
 
       // Add item
       document.getElementById("addButton").onclick = () => {
         groceries.push(document.getElementById("groceryInput").value); // I used Push to add the item
         document.getElementById("groceryInput").value = ""; // Clear input field
-        updateDisplay; // Update the display
+        document.getElementById("groceryList").textContent =
+          groceries.join(", ");
       };
 
       // Remove last item using pop
       document.getElementById("removeButton").onclick = () => {
         groceries.pop();
-        updateDisplay; // Update the display
+        document.getElementById("groceryList").textContent =
+          groceries.join(", ");
       };
 
       //    note: I could use iteration to enhance the code. Also, I could use if condition to check if the input is
