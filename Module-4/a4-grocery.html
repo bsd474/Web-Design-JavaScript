@@ -1,0 +1,56 @@
+<!-- 
+Since we are focusing on code I used simple HTML with no CSS.
+Crated by Bader Aldossary on 10/31/2024
+
+1. You must use arrays
+2. Items must be added to the array and removed from the array as a means of displaying them on the page.
+3. Removing of array elements should be done using the index.
+4. Use only what we have learned in class so far.
+
+-->
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Interactive Grocery List</title>
+  </head>
+
+  <body>
+    <h2>Grocery List</h2>
+
+    <div>
+      <label for="groceryInput">Add an item:</label>
+      <input type="text" id="groceryInput" placeholder="Enter grocery item" />
+      <button id="addButton">Add Item</button>
+      <button id="removeButton">Remove Last Item</button>
+    </div>
+
+    <h3>Current Grocery List:</h3>
+    <div id="groceryList"></div>
+
+    <script>
+      // Initial empty grocery list
+      const groceries = [];
+      // Update the display
+      let updateDisplay = (document.getElementById("groceryList").textContent =
+        groceries.join(", "));
+
+      // Add item
+      document.getElementById("addButton").onclick = () => {
+        groceries.push(document.getElementById("groceryInput").value); // I used Push to add the item
+        document.getElementById("groceryInput").value = ""; // Clear input field
+        updateDisplay; // Update the display
+      };
+
+      // Remove last item using pop
+      document.getElementById("removeButton").onclick = () => {
+        groceries.pop();
+        updateDisplay; // Update the display
+      };
+
+      //    note: I could use iteration to enhance the code. Also, I could use if condition to check if the input is
+      //    empty or not but as you asked to use only what we have learned in class so far. I kept it simple.
+    </script>
+  </body>
+</html>
