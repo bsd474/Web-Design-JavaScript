@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Guess the Number!</title>
+
+    <style>
+      /* Define custom color variables */
+      :root {
+        --dkvelvet: #431341;
+        --ltvelvet: #6f405d;
+        --parch: #f3ecd8;
+        --lime: #bdd883;
+      }
+
+      /* Style for body element */
+      body {
+        font-family: "Helvetica Neue", sans-serif;
+        background-color: var(--lime);
+      }
+
+      /* Style for main sections */
+      .half {
+        display: inline-block;
+        width: 300px;
+        min-height: 200px;
+        padding: 15px;
+        vertical-align: top;
+        border: 2px solid var(--ltvelvet);
+        border-radius: 15px;
+        background-color: var(--parch);
+        text-align: center;
+        box-sizing: border-box;
+      }
+
+      #feedbackDiv {
+        width: 605px;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 10px;
+        background-color: var(--ltvelvet);
+        color: var(--parch);
+        font-size: 20px;
+        text-align: center;
+        box-sizing: border-box;
+      }
+
+      /* Centered content */
+      .center {
+        width: 80%;
+        text-align: center;
+        margin: 15px auto;
+      }
+
+      /* Style for labels */
+      label {
+        border: 2px solid var(--ltvelvet);
+        background-color: var(--lime);
+        color: var(--ltvelvet);
+        border-radius: 5px;
+        padding: 5px 10px;
+        width: 100px;
+        display: inline-block;
+        font-size: 12px;
+      }
+
+      /* Style for form group container */
+      .form-grp {
+        margin: 10px;
+      }
+
+      /* Style for input fields */
+      input {
+        width: 125px;
+        height: 20px;
+        line-height: 20px;
+      }
+
+      /* Style for buttons */
+      button {
+        border: 2px solid var(--ltvelvet);
+        border-radius: 5px;
+        color: var(--parch);
+        background-color: var(--dkvelvet);
+        font-size: 15px;
+        padding: 5px;
+      }
+
+      /* Style for the response text */
+      #responseDiv {
+        color: var(--ltvelvet);
+        font-size: 70px;
+        font-weight: bold;
+      }
+
+      /* Style for the list of guesses */
+      #soFar {
+        font-weight: bold;
+        font-size: 20px;
+        color: var(--ltvelvet);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Guess the Number!</h1>
+    <div class="half">
+      Guess a number between 1-10
+      <div class="form-grp">
+        <label for="guessNo">Your Guess:</label>
+        <!-- Label for the input field -->
+        <input type="text" id="guessNo" />
+        <!-- Input for entering the guess -->
+      </div>
+      <div class="form-grp">
+        <button id="guessBtn">Submit Guess</button>
+        <!-- Button to submit the guess -->
+      </div>
+      <div class="form-grp" id="soFar">
+        Guesses so far:
+        <!-- Placeholder text for displaying guesses -->
+      </div>
+    </div>
+    <div class="half" id="responseDiv"></div>
+    <!-- Div to display response to each guess -->
+    <div id="feedbackDiv">First guess - You've GOT this!</div>
+    <!-- DIV for displaying encouraging feedback -->
+    <script>
+      let secret = Math.floor(Math.random() * 10) + 1; // Generate a random secret number between 1 and 10
+      console.log(secret); // Log the secret number for debugging
+      let turns = 0; // Counter for number of guesses
+      let guesslist = []; // Array to keep track of guesses
+      let guess = document.getElementById("guessNo"); // Input element for guesses
+      let gbtn = document.getElementById("guessBtn"); // Button element to submit guess
+      let sofar = document.getElementById("soFar"); // Element to show guesses so far
+      let response = document.getElementById("responseDiv"); // Element for guess response
+      let feedback = document.getElementById("feedbackDiv"); // Element for encouraging feedback.
+      let whichGuess = 0; // This is a variable to track which guess the user is on.
+
+      // Event listener for the guess button
+      gbtn.addEventListener("click", function () {
+        // Convert input to a number and store as myguess
+        let myguess = parseInt(guess.value);
+        // Clear the input field after getting the guess
+        guess.value = "";
+        if (myguess === secret) {
+          // If the guess is correct
+          // Display success message
+          response.textContent = "Correct!";
+          // Disable the button by reloading it
+          gbtn.disabled = true;
+        } else {
+          // If the guess is incorrect
+          // Add the wrong guess to the list
+          guesslist.push(myguess);
+          // Use the increment operator to add 1 to the whichGuess variable.
+          whichGuess++;
+          // Display all guesses below "guesses so far"
+          sofar.textContent = "Guesses so far: " + guesslist.join(", ");
+          // Show incorrect guess feedback in responseDiv
+          response.textContent = "Wrong! try again!";
+          switch (
+            whichGuess // branch based on the value of whichGuess variable.
+          ) {
+            case 1: // whichGuess = 1
+              // Change the feedback div after first guess.
+              feedback.textContent = "First guess - Good Started !";
+              break; // exit the switch statement.
+            case 2: // whichGuess = 2
+              // Change after second guess
+              feedback.textContent = "Second guess - You're on a game!";
+              break; // exit the switch statement.
+            case 3: // whichGuess = 3
+              // End of game alert
+              feedback.textContent =
+                "Stop Stop Stop, Game Over the number was " + secret;
+              location.reload(); // Reload page to reset game
+              break; // exit switch statement
+          }
+        }
+        // Return focus to the text input field.
+        guess.focus();
+      });
+    </script>
+  </body>
+</html>
