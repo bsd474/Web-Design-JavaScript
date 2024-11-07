@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loops and Grids</title>
+    <style>
+      .container {
+        display: grid;
+        grid-template-columns: repeat(10, 45px);
+        gap: 1px;
+      }
+      .cell {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid black;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="mainContainer"></div>
+
+    <script>
+      const container = document.getElementById("mainContainer");
+
+      // Generate a multiplication table that includes rows and columns for the numbers 0 through 10
+
+      // Create a 10x10 grid
+      for (let i = 1; i <= 10; i++) {
+        for (let j = 1; j <= 10; j++) {
+          // Create a new cell
+          const cell = document.createElement("div");
+          cell.classList.add("cell");
+
+          // Multiply the row and column numbers
+          cell.textContent = i * j;
+
+          // Append the cell to the container
+          container.appendChild(cell);
+        }
+      }
+    </script>
+  </body>
+</html>
