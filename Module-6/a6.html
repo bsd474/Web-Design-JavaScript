@@ -1,0 +1,212 @@
+<!-- 
+    First find the formula for each sequence.
+    Then, write the code to generate each sequence using the assigned loop.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Number Sequence Generator</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        line-height: 1.6;
+      }
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+      }
+
+      header {
+        background: #0083ff;
+        color: #fff;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 65vh;
+        padding: 2rem;
+      }
+
+      .btnsContainer {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .btnsContainer button {
+        padding: 1rem;
+        font-size: 1.2rem;
+        border: none;
+        background: #0083ff;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+      .resultClass {
+        font-size: 1.5rem;
+        margin-top: 1rem;
+        height: 15rem;
+        width: 80%;
+        text-align: center;
+        background: rgb(2 131 255 / 20%);
+        display: flex;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        transition: 0.1s;
+      }
+      footer {
+        background: #0083ff;
+        color: #fff;
+        text-align: center;
+        padding: 1rem;
+        margin-top: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="#"><h2>Number Sequence Generator</h2></a>
+      <span>Assignments A6 - Number Sequence Generator</span>
+    </header>
+    <main>
+      <section class="container">
+        <div class="btnsContainer">
+          <button id="evenNumBtn">Even Numbers</button>
+          <button id="triangularNumBtn">Triangular Number</button>
+          <button id="fibonacciBtn">Fibonacci Sequence</button>
+        </div>
+
+        <div id="result" class="resultClass"></div>
+      </section>
+    </main>
+    <footer>
+      <div>Bader Aldossary 2024 &copy; A6 - Simple Calculator</div>
+    </footer>
+    <script>
+      /*
+        1- You must correctly generate each sequence using the assigned loop.
+        2- The sequences should be displayed in response to a user event (click, etc)
+        3- Use CSS to make the presentation attractive.
+        4- Use only what has been covered so far in this class.
+        */
+      document.addEventListener("DOMContentLoaded", () => {
+        // declare variables
+        const evenNumBtn = document.getElementById("evenNumBtn");
+        const triangularNumBtn = document.getElementById("triangularNumBtn");
+        const fibonacciBtn = document.getElementById("fibonacciBtn");
+        const result = document.getElementById("result");
+        result.style.backgroundColor = "transparent";
+        // List all even numbers between 0 and 40 using a for loop.
+        evenNumBtn.addEventListener("click", () => {
+          // Formula of Even Number: n % 2 = 0
+          // clear the result
+          result.innerText = "";
+          // declare variables
+          let evenNum = [];
+          // for loop
+          for (let i = 0; i <= 40; i++) {
+            // check if the number is even
+            if (i % 2 === 0) {
+              // add the number to the array
+              evenNum.push(i);
+            }
+          }
+          // display the result
+          result.innerText =
+            "Even Number: \n" + evenNum.join(", ") + " ... \n Formula:\n n=2k";
+        });
+
+        // Generate a list of numbers where you add a progressively higher number each step until the sum is greater than 50 using a while loop. The first 5 numbers in the sequence should be: 1 3 6 10 15 (Starting with 0, we add 1, then we add 2, and then 3 and so on.
+        triangularNumBtn.addEventListener("click", () => {
+          // Formula of Triangular Number: T(n) = n(n+1)/2
+          // declare variables
+          let total = 0;
+          let increment = 1;
+          let sequence = [];
+          // while loop
+          while (total <= 50) {
+            // add the increment to the total
+            total += increment;
+            // add the total to the sequence
+            sequence.push(total);
+            // increment the increment variable by 1
+            increment++;
+          }
+          // display the result
+          result.innerText =
+            "Triangular Number: \n" +
+            sequence.join(", ") +
+            " ...\n Formula:\n T(n) = n(n+1)/2";
+        });
+
+        // Use a do...while loop to generate the Fibonacci Sequence. The Fibonacci Sequence is a series of numbers in which each number is the sum of the two preceding ones, usually starting with 0 and 1.
+        fibonacciBtn.addEventListener("click", () => {
+          // Formula of Fibonacci Sequence: F(n) = F(n-1) + F(n-2)
+          // declare variables
+          let n1 = 0;
+          let n2 = 1;
+          let nextNum;
+          let fibonacci = [];
+          // do...while loop
+          do {
+            // add the number to the array
+            fibonacci.push(n1);
+            // calculate the next number
+            nextNum = n1 + n2;
+            // update the numbers
+            n1 = n2;
+            n2 = nextNum;
+            // check if the number is less than or equal to 610 same the example in the assignment link
+            // https://www.imaginationstationtoledo.org/about/blog/the-fibonacci-sequence
+          } while (n1 <= 610);
+          // display the result
+          result.innerText =
+            "Fibonacci Sequence: \n" +
+            fibonacci.join(", ") +
+            " ...\n Formula:\n F(n) = F(n-1) + F(n-2)";
+        });
+
+        // hide the result if clicked anywhere on the page
+        document.addEventListener("click", (e) => {
+          // check if the target is not the buttons
+          if (
+            e.target !== evenNumBtn &&
+            e.target !== triangularNumBtn &&
+            e.target !== fibonacciBtn
+          ) {
+            // clear the result
+            result.innerText = "";
+            result.style.backgroundColor = "transparent";
+          } else {
+            result.style.backgroundColor = "rgb(2 131 255 / 20%)";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
