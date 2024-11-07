@@ -1,0 +1,400 @@
+<!-- This is the upgrade v0.02 of the assignment 3 and I combined CSS JS files in the HTML Page -->
+
+<!-- 
+-- When the user opens the page, they should see two buttons. 
+-- The buttons should be labeled to represent two different calculators. 
+-- They should be labeled to represent the two calculators you chose.
+-- When each of the buttons is clicked, it should show the corresponding calculator, and hide the other.
+-- When a calculator is used, it should show the answers in a third div.
+-- When calculators are switched, the answer div should be hidden.
+-- BONUS: When the page background is clicked, hide all divs. 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Triangle Operations</title>
+    <!-- Use CSS to make the page attractive and usable. -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        line-height: 1.6;
+      }
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+      }
+
+      header {
+        background: #0083ff;
+        color: #fff;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 65vh;
+        padding: 2rem;
+      }
+
+      .btnsContainer {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .btnsContainer button {
+        padding: 1rem;
+        font-size: 1.2rem;
+        border: none;
+        background: #0083ff;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .inputsContainer {
+        display: none;
+        margin-top: 1rem;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .inputsContainer input {
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .inputsContainer button {
+        padding: 0.5rem;
+        font-size: 1.2rem;
+        border: none;
+        background: #0083ff;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .result {
+        font-size: 1.5rem;
+        margin-top: 1rem;
+        text-align: center;
+      }
+
+      .svg {
+        display: none;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+
+      footer {
+        background: #0083ff;
+        color: #fff;
+        text-align: center;
+        padding: 1rem;
+        margin-top: auto;
+      }
+
+      /* Highlight styles for triangle parts */
+      .highlightBase {
+        stroke: #007bff;
+        stroke-width: 4;
+      }
+
+      .highlightHeight {
+        stroke: #007bff;
+        stroke-width: 4;
+      }
+
+      .highlightArea {
+        fill: rgba(0, 131, 255, 0.2); /* Light blue highlight */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="#"><h2>Triangle Operations</h2></a>
+      <span>Assignments A5 - Simple Calculator</span>
+    </header>
+    <main>
+      <section class="container">
+        <!-- Page must start showing only the two buttons and a heading. -->
+        <div class="btnsContainer">
+          <button id="areaBtn">Find Area</button>
+          <button id="heightBtn">Find Height</button>
+        </div>
+        <!-- Each calculator should be on its own div. -->
+        <div id="areaInputs" class="inputsContainer">
+          <input type="number" id="baseInput" placeholder="Base = b" />
+          <input type="number" id="heightInputArea" placeholder="Height = h" />
+          <button id="calculateArea">Calculate Area</button>
+        </div>
+
+        <div id="heightInputs" class="inputsContainer">
+          <input type="number" id="baseInputHeight" placeholder="Base = b" />
+          <input type="number" id="areaInput" placeholder="Area" />
+          <button id="calculateHeight">Calculate Height</button>
+        </div>
+
+        <div class="result">
+          <p id="result"></p>
+        </div>
+
+        <div class="svg">
+          <svg width="350" height="200" xmlns="http://www.w3.org/2000/svg">
+            <polygon
+              id="triangle"
+              points="65,150 325,150 130,50"
+              fill="none"
+              stroke="black"
+              stroke-width="2"
+            />
+            <line
+              id="baseLine"
+              x1="65"
+              y1="150"
+              x2="325"
+              y2="150"
+              stroke="black"
+              stroke-width="2"
+            />
+            <text x="195" y="170" font-size="20" text-anchor="middle">b</text>
+            <line
+              id="heightLine"
+              x1="130"
+              y1="150"
+              x2="130"
+              y2="50"
+              stroke="black"
+              stroke-width="2"
+              stroke-dasharray="5,5"
+            />
+            <text id="heightTextH" x="135" y="100" font-size="20">h</text>
+            <rect
+              id="angleSquare"
+              x="130"
+              y="140"
+              width="10"
+              height="10"
+              fill="none"
+              stroke="black"
+              stroke-width="1"
+            />
+            <line
+              x1="325"
+              y1="150"
+              x2="130"
+              y2="50"
+              stroke="black"
+              stroke-width="2"
+            />
+            <text x="245" y="100" font-size="20" fill="black">c</text>
+            <line
+              x1="65"
+              y1="150"
+              x2="130"
+              y2="50"
+              stroke="black"
+              stroke-width="2"
+            />
+            <text x="75" y="100" font-size="20" fill="black">a</text>
+          </svg>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div>Bader Aldossary 2024 &copy; A5 - Simple Calculator</div>
+    </footer>
+    <script>
+      // ======================================== (initialize) ========================================
+      document.addEventListener("DOMContentLoaded", () => {
+        // DOMContentLoaded for the page to be fully loaded
+
+        // declare variables
+        const areaBtn = document.getElementById("areaBtn");
+        const heightBtn = document.getElementById("heightBtn");
+        const areaInputs = document.getElementById("areaInputs");
+        const heightInputs = document.getElementById("heightInputs");
+        const svg = document.querySelector(".svg");
+        const resultDisplay = document.getElementById("result");
+
+        // Only one should ever be shown at a time.
+        heightBtn.addEventListener("click", () => {
+          // Show height calculation BTN
+          heightInputs.style.display = "block";
+          svg.style.display = "block";
+          areaInputs.style.display = "none";
+          //   clear area inputs
+          document.getElementById("baseInput").value = "";
+          document.getElementById("heightInputArea").value = "";
+          // ckear result
+          resultDisplay.innerText = "";
+        });
+
+        areaBtn.addEventListener("click", () => {
+          // Show area calculation BTN
+          areaInputs.style.display = "block";
+          svg.style.display = "block";
+          heightInputs.style.display = "none";
+          //   clear height inputs
+          document.getElementById("baseInputHeight").value = "";
+          document.getElementById("areaInput").value = "";
+          // clear result
+          resultDisplay.innerText = "";
+        });
+
+        // ======================================== (Find Area) ========================================
+        document.getElementById("baseInput").addEventListener("focus", () => {
+          document.getElementById("baseLine").classList.add("highlightBase");
+        });
+
+        // Remove highlight from the base when the focus is lost
+        document.getElementById("baseInput").addEventListener("blur", () => {
+          document.getElementById("baseLine").classList.remove("highlightBase");
+        });
+
+        // Highlight the height when the user focuses on the height input (Find Area)
+        document
+          .getElementById("heightInputArea")
+          .addEventListener("focus", () => {
+            document
+              .getElementById("heightLine")
+              .classList.add("highlightHeight");
+          });
+
+        // Remove highlight from the height when the focus is lost
+        document
+          .getElementById("heightInputArea")
+          .addEventListener("blur", () => {
+            document
+              .getElementById("heightLine")
+              .classList.remove("highlightHeight");
+          });
+
+        // ======================================== (Find Height) ========================================
+        document
+          .getElementById("baseInputHeight")
+          .addEventListener("focus", () => {
+            document.getElementById("baseLine").classList.add("highlightBase");
+          });
+
+        // Remove highlight from the base when the focus is lost
+        document
+          .getElementById("baseInputHeight")
+          .addEventListener("blur", () => {
+            document
+              .getElementById("baseLine")
+              .classList.remove("highlightBase");
+          });
+
+        // Highlight the height when the user focuses on the height input (Find Height)
+        document.getElementById("areaInput").addEventListener("focus", () => {
+          document.getElementById("triangle").classList.add("highlightArea");
+          //   hide heightLine
+          document.getElementById("heightLine").style.display = "none";
+          document.getElementById("heightTextH").style.display = "none";
+          document.getElementById("angleSquare").style.display = "none";
+        });
+
+        // Remove highlight from the height when the focus is lost
+        document.getElementById("areaInput").addEventListener("blur", () => {
+          document.getElementById("triangle").classList.remove("highlightArea");
+          document
+            .getElementById("heightLine")
+            .classList.remove("highlightHeight");
+          // Show elements again
+          document.getElementById("heightLine").style.display = "block";
+          document.getElementById("heightTextH").style.display = "block";
+          document.getElementById("angleSquare").style.display = "block";
+        });
+
+        // ======================================== (Calculations) ========================================
+        // If condition for calculating the area
+        document
+          .getElementById("calculateArea")
+          .addEventListener("click", () => {
+            // declare variables
+            const base = parseFloat(document.getElementById("baseInput").value);
+            const height = parseFloat(
+              document.getElementById("heightInputArea").value
+            );
+
+            // check if the inputs are valid
+            if (!base || !height) {
+              resultDisplay.innerText = "Please enter valid numbers.";
+              return;
+            }
+
+            // calculate the area
+            const area = 0.5 * base * height;
+            resultDisplay.innerText = `Area: ${area}`;
+          });
+
+        // If condition for calculating the height
+        document
+          .getElementById("calculateHeight")
+          .addEventListener("click", () => {
+            // declare variables
+            const base = parseFloat(
+              document.getElementById("baseInputHeight").value
+            );
+            const area = parseFloat(document.getElementById("areaInput").value);
+
+            // check if the inputs are valid
+            if (!base || !area) {
+              resultDisplay.innerText = "Please enter valid numbers.";
+              return;
+            }
+            // calculate the height
+            const height = (2 * area) / base;
+
+            resultDisplay.innerText = `Height: ${height}`;
+          });
+
+        // ======================================== (hide all divs) ========================================
+
+        //BONUS: When the page background is clicked, hide all divs.
+        // e is the event object
+        document.body.addEventListener("click", (e) => {
+          if (
+            // if the user clicks outside the inputsContainer and btnsContainer
+            !e.target.closest(".inputsContainer") &&
+            !e.target.closest(".btnsContainer")
+          ) {
+            // hide the divs
+            areaInputs.style.display = "none";
+            heightInputs.style.display = "none";
+            resultDisplay.innerText = "";
+            svg.style.display = "none";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
