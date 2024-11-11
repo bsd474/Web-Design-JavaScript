@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flip a Sentence</title>
+
+    <style>
+      :root {
+        --beige: #eae1cb;
+        --gold: #d3a222;
+        --black: #171717;
+        --blue: #034460;
+      }
+
+      body {
+        font-family: "Arial Black", "Impact", sans-serif;
+      }
+
+      #display {
+        border: 3px solid var(--gold);
+        border-radius: 10px;
+        background-color: var(--black);
+        color: var(--gold);
+        font-size: 50px;
+        width: 80%;
+        align-content: center;
+        align-self: center;
+        margin: 15px auto 15px auto;
+      }
+
+      .center {
+        width: 80%;
+        text-align: center;
+        margin: 15px auto 15px auto;
+      }
+      button {
+        margin-top: 10px;
+        border: 2px solid var(--black);
+        border-radius: 5px;
+        color: var(--black);
+        background-color: var(--gold);
+        font-size: 16px;
+        padding: 5px;
+        width: 150px;
+      }
+      h1 {
+        text-align: center;
+      }
+      #userText {
+        height: 20px;
+        line-height: 20px;
+        font-size: 16px;
+        border: 1px solid var(--black);
+        border-radius: 4px;
+        padding: 4px;
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flip Your Sentence</h1>
+    <div id="display" class="center"></div>
+    <div class="center">
+      <label for="userText">Enter your text: </label>
+      <input id="userText" type="text" /><br />
+      <button id="flipIt">Flip It</button>
+    </div>
+    <script>
+      let displaydiv = document.getElementById("display");
+      let flipit = document.getElementById("flipIt");
+      let usertext = document.getElementById("userText");
+
+      function flipText() {
+        // get the user's text
+        let newText = usertext.value;
+        // split the text into an array of words
+        let words = newText.split(" ");
+        // reverse the array
+        words.reverse();
+        // join the array back into a string
+        newText = words.join(" ");
+        // display the string in the display div
+        displaydiv.textContent = newText;
+      }
+      // call the function when the button is clicked
+      flipit.addEventListener("click", flipText);
+      usertext.addEventListener("change", flipText);
+    </script>
+  </body>
+</html>

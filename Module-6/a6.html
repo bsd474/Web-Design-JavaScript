@@ -129,7 +129,7 @@
           // declare variables
           let evenNum = [];
           // for loop
-          for (let i = 0; i <= 40; i++) {
+          for (let i = 0; i < 50; i++) {
             // check if the number is even
             if (i % 2 === 0) {
               // add the number to the array
@@ -137,8 +137,7 @@
             }
           }
           // display the result
-          result.innerText =
-            "Even Number: \n" + evenNum.join(", ") + " ... \n Formula:\n n=2k";
+          result.innerText = "Even Number: \n" + evenNum.join(", ") + " ...";
         });
 
         // Generate a list of numbers where you add a progressively higher number each step until the sum is greater than 50 using a while loop. The first 5 numbers in the sequence should be: 1 3 6 10 15 (Starting with 0, we add 1, then we add 2, and then 3 and so on.
@@ -149,7 +148,7 @@
           let increment = 1;
           let sequence = [];
           // while loop
-          while (total <= 50) {
+          while (total < 50) {
             // add the increment to the total
             total += increment;
             // add the total to the sequence
@@ -159,9 +158,7 @@
           }
           // display the result
           result.innerText =
-            "Triangular Number: \n" +
-            sequence.join(", ") +
-            " ...\n Formula:\n T(n) = n(n+1)/2";
+            "Triangular Number: \n" + sequence.join(", ") + " ...";
         });
 
         // Use a do...while loop to generate the Fibonacci Sequence. The Fibonacci Sequence is a series of numbers in which each number is the sum of the two preceding ones, usually starting with 0 and 1.
@@ -183,12 +180,10 @@
             n2 = nextNum;
             // check if the number is less than or equal to 610 same the example in the assignment link
             // https://www.imaginationstationtoledo.org/about/blog/the-fibonacci-sequence
-          } while (n1 <= 610);
+          } while (n1 < 50);
           // display the result
           result.innerText =
-            "Fibonacci Sequence: \n" +
-            fibonacci.join(", ") +
-            " ...\n Formula:\n F(n) = F(n-1) + F(n-2)";
+            "Fibonacci Sequence: \n" + fibonacci.join(", ") + " ...";
         });
 
         // hide the result if clicked anywhere on the page

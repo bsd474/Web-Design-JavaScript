@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Guess the Number!</title>
+
+    <style>
+      /* Define custom color variables */
+      :root {
+        --dkvelvet: #431341;
+        --ltvelvet: #6f405d;
+        --parch: #f3ecd8;
+        --lime: #bdd883;
+      }
+
+      /* Style for body element */
+      body {
+        font-family: "Helvetica Neue", sans-serif;
+        background-color: var(--lime);
+      }
+
+      /* Style for main sections */
+      .half {
+        display: inline-block;
+        width: 300px;
+        min-height: 200px;
+        padding: 15px;
+        vertical-align: top;
+        border: 2px solid var(--ltvelvet);
+        border-radius: 15px;
+        background-color: var(--parch);
+        text-align: center;
+        box-sizing: border-box;
+      }
+
+      #feedbackDiv {
+        width: 605px;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 10px;
+        background-color: var(--ltvelvet);
+        color: var(--parch);
+        font-size: 20px;
+        text-align: center;
+        box-sizing: border-box;
+      }
+
+      /* Centered content */
+      .center {
+        width: 80%;
+        text-align: center;
+        margin: 15px auto;
+      }
+
+      /* Style for labels */
+      label {
+        border: 2px solid var(--ltvelvet);
+        background-color: var(--lime);
+        color: var(--ltvelvet);
+        border-radius: 5px;
+        padding: 5px 10px;
+        width: 100px;
+        display: inline-block;
+        font-size: 12px;
+      }
+
+      /* Style for form group container */
+      .form-grp {
+        margin: 10px;
+      }
+
+      /* Style for input fields */
+      input {
+        width: 125px;
+        height: 20px;
+        line-height: 20px;
+      }
+
+      /* Style for buttons */
+      button {
+        border: 2px solid var(--ltvelvet);
+        border-radius: 5px;
+        color: var(--parch);
+        background-color: var(--dkvelvet);
+        font-size: 15px;
+        padding: 5px;
+      }
+
+      /* Style for the response text */
+      #responseDiv {
+        color: var(--ltvelvet);
+        font-size: 70px;
+        font-weight: bold;
+      }
+
+      /* Style for the list of guesses */
+      #soFar {
+        font-weight: bold;
+        font-size: 20px;
+        color: var(--ltvelvet);
+      }
+      .playAgainBtn {
+        margin-top: 10px;
+        background-color: var(--dkvelvet);
+        color: var(--parch);
+        border: 2px solid var(--ltvelvet);
+        border-radius: 5px;
+        padding: 5px;
+        font-size: 15px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Guess the Number!</h1>
+    <div class="half">
+      Guess a number between 1-10
+      <div class="form-grp">
+        <label for="guessNo">Your Guess:</label>
+        <!-- Label for the input field -->
+        <input type="text" id="guessNo" />
+        <!-- Input for entering the guess -->
+      </div>
+      <div class="form-grp">
+        <button id="guessBtn">Submit Guess</button>
+        <!-- Button to submit the guess -->
+      </div>
+      <div class="form-grp" id="soFar">
+        Guesses so far:
+        <!-- Placeholder text for displaying guesses -->
+      </div>
+    </div>
+    <div class="half" id="responseDiv"></div>
+    <!-- Div to display response to each guess -->
+    <div id="feedbackDiv">First guess - You've GOT this!</div>
+    <!-- DIV for displaying encouraging feedback -->
+    <script>
+      let secret = Math.floor(Math.random() * 10) + 1; // Generate a random secret number between 1 and 10
+      console.log(secret); // Log the secret number for debugging
+      let turns = 0; // Counter for number of guesses
+      let guesslist = []; // Array to keep track of guesses
+      let guess = document.getElementById("guessNo"); // Input element for guesses
+      let gbtn = document.getElementById("guessBtn"); // Button element to submit guess
+      let sofar = document.getElementById("soFar"); // Element to show guesses so far
+      let response = document.getElementById("responseDiv"); // Element for guess response
+      let feedback = document.getElementById("feedbackDiv"); // Element for encouraging feedback.
+      let whichGuess = 0; // This is a variable to track which guess the user is on.
+
+      /*
+      The Challenge
+      When we previously created a number guessing game for the Module 5 Sandbox, we added the majority of our code in an anonymous function inside the event handler. For this assignment, you don't need to add any new functionality to the game you created.  What you need to do for this assignment is take tat code and rewrite it to use a custom function that processes the user's guess, and another one that clears/resets the box.  Then, call those functions from event handlers.
+
+      Constraints / Success Criteria
+      For full credit, your assignment must:
+
+      1- Contain at least two custom functions.
+      2- Call the custom functions from event handlers.
+      3- Clear the input box when the box gets focus.
+      4- Tell the user when they have won, and when they are out of guesses.
+      How to Submit
+      */
+
+      function processGuess() {
+        let myguess = guess.value;
+        // Check if the input is empty
+        if (myguess === "") {
+          response.textContent = "Please enter a guess!"; // Show an error message
+          return; // Exit the function if input is empty
+        }
+
+        // Check if the input is a valid number
+        if (isNaN(myguess)) {
+          response.textContent = "Please enter a valid number!"; // Show an error message
+          return; // Exit the function if input is not a number
+        }
+
+        myguess = parseInt(myguess); // Convert the input value to a number
+
+        // Clear the input field after getting the guess
+        guess.value = "";
+
+        if (myguess === secret) {
+          // If the guess is correct
+          response.textContent = "Correct!";
+          gbtn.disabled = true; // Disable the button by reloading it
+        } else {
+          // If the guess is incorrect
+          guesslist.push(myguess); // Add the wrong guess to the list
+          whichGuess++; // Increment the guess count
+
+          // Display all guesses below "guesses so far"
+          sofar.textContent = "Guesses so far: " + guesslist.join(", ");
+
+          // Show incorrect guess feedback
+          response.textContent = "Wrong! Try again!";
+
+          // Provide feedback based on the number of guesses
+          switch (whichGuess) {
+            case 1:
+              feedback.textContent = "First guess - Good start!";
+              break;
+            case 2:
+              feedback.textContent = "Second guess - You're on a roll!";
+              break;
+            case 3:
+              feedback.textContent = "Game Over! The number was " + secret;
+              break;
+          }
+          // If the user has guessed 3 times, disable the button
+          if (whichGuess === 3) {
+            gbtn.disabled = true;
+            gbtn.style.backgroundColor = "gray";
+            // create reload button
+            let playAgain = document.createElement("button");
+            // set the text content and class name
+            playAgain.textContent = "Play Again";
+            // set the class name
+            playAgain.className = "playAgainBtn";
+            // add the button to the body
+            playAgain.addEventListener("click", clearBox);
+            // add the button to the body
+            document.body.appendChild(playAgain);
+            // add the event listener to the button reload the pages
+            playAgain.onclick = function () {
+              window.location.reload();
+            };
+          }
+
+          // Return focus to the text input field.
+          guess.focus();
+        }
+      }
+
+      // use a custom function that clears/resets the box.
+
+      function clearBox() {
+        // Clear the input field after getting the guess
+        guess.value = "";
+        // Clear the response text
+        response.textContent = "";
+        // Clear the feedback text
+        feedback.textContent = "First guess - You've GOT this!";
+        // Clear the guesses so far
+        sofar.textContent = "";
+        // Clear the guesslist array
+        guesslist = [];
+        // Reset the whichGuess variable
+        whichGuess = 0;
+        // Enable the button
+        gbtn.disabled = false;
+        // Return focus to the text input field.
+        guess.focus();
+      }
+
+      // Add event listener to the button
+      gbtn.addEventListener("click", processGuess);
+    </script>
+  </body>
+</html>
