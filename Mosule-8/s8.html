@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regular Expression Validation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      .valid {
+        border: 1px solid green;
+        color: green;
+      }
+
+      .invalid {
+        border: 1px solid red;
+        color: red;
+      }
+      /* #notValidInput {
+        background-color: red;
+        font-size: 10px;
+        color: white;
+        padding: 2px;
+        width: 200px;
+        display: none;
+        box-sizing: border-box;
+        text-align: center;
+      }
+      #inputField {
+        width: 200px;
+        box-sizing: border-box;
+        border: 2px solid;
+      } */
+      .error {
+        background-color: red;
+        font-size: 12px;
+        color: white;
+        padding: 5px;
+        width: 250px;
+        display: none;
+        box-sizing: border-box;
+      }
+
+      .inputField {
+        width: 250px;
+        padding: 5px;
+        margin: 10px 0;
+      }
+
+      .button {
+        padding: 5px 15px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Regular Expression Validation</h1>
+    <!-- Email -->
+    <div>
+      <label for="inputEmail">Email:</label>
+      <input
+        type="text"
+        id="inputEmail"
+        class="inputField"
+        placeholder="Enter your email"
+      />
+      <div id="errorEmail" class="error">Invalid Email</div>
+      <button id="validateEmail" class="button">Validate Email</button>
+    </div>
+    <!-- Phone -->
+    <div>
+      <label for="inputPhone">Phone (123-456-7890):</label>
+      <input
+        type="text"
+        id="inputPhone"
+        class="inputField"
+        placeholder="Enter your phone number"
+      />
+      <div id="errorPhone" class="error">Invalid Phone Number</div>
+      <button id="validatePhone" class="button">Validate Phone</button>
+    </div>
+    <!-- Date -->
+    <div>
+      <label for="inputDate">Date (YYYY-MM-DD):</label>
+      <input
+        type="text"
+        id="inputDate"
+        class="inputField"
+        placeholder="Enter a date"
+      />
+      <div id="errorDate" class="error">Invalid Date</div>
+      <button id="validateDate" class="button">Validate Date</button>
+    </div>
+
+    <script>
+      // Regular Expressions for each field
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // Email
+      const phoneRegex = /^\d{3}-\d{3}-\d{4}$/; // Phone
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // Date
+
+      // Validate Email
+      document.getElementById("validateEmail").addEventListener("click", () => {
+        const emailInput = document.getElementById("inputEmail");
+        const errorEmail = document.getElementById("errorEmail");
+
+        // Test the email input value against the email regex
+        if (emailRegex.test(emailInput.value)) {
+          emailInput.classList.add("valid");
+          emailInput.classList.remove("invalid");
+          errorEmail.style.display = "none";
+        } else {
+          emailInput.classList.add("invalid");
+          emailInput.classList.remove("valid");
+          errorEmail.style.display = "block";
+        }
+      });
+
+      // Validate Phone
+      document.getElementById("validatePhone").addEventListener("click", () => {
+        const phoneInput = document.getElementById("inputPhone");
+        const errorPhone = document.getElementById("errorPhone");
+
+        // Test the phone input value against the phone regex
+        if (phoneRegex.test(phoneInput.value)) {
+          phoneInput.classList.add("valid");
+          phoneInput.classList.remove("invalid");
+          errorPhone.style.display = "none";
+        } else {
+          phoneInput.classList.add("invalid");
+          phoneInput.classList.remove("valid");
+          errorPhone.style.display = "block";
+        }
+      });
+
+      // Validate Date
+      document.getElementById("validateDate").addEventListener("click", () => {
+        const dateInput = document.getElementById("inputDate");
+        const errorDate = document.getElementById("errorDate");
+
+        // Test the date input value against the date regex
+        if (dateRegex.test(dateInput.value)) {
+          dateInput.classList.add("valid");
+          dateInput.classList.remove("invalid");
+          errorDate.style.display = "none";
+        } else {
+          dateInput.classList.add("invalid");
+          dateInput.classList.remove("valid");
+          errorDate.style.display = "block";
+        }
+      });
+    </script>
+  </body>
+</html>
