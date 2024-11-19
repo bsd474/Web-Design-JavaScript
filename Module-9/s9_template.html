@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farmers Market Fruit Stand</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        color: #333;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+      }
+      .fruit-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+      .fruit-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        width: 200px;
+        text-align: center;
+        border: 1px solid #ccc;
+      }
+      .quantity {
+        font-weight: bold;
+        padding: 5px;
+        border-radius: 4px;
+      }
+      .green {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      .yellow {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+      .red {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Farmers Market Fruit Stand</h1>
+    <div id="fruitContainer" class="fruit-container"></div>
+
+    <script>
+      // Fetch data from JSON file
+      fetch("fruitdata.json")
+        .then((response) => response.json())
+        .then((data) => {
+          const container = document.getElementById("fruitContainer");
+          data.forEach((fruit) => {
+            // Create fruit card
+            const card = document.createElement("div");
+            card.classList.add("fruit-card");
+            // Display information
+            card.innerHTML = `
+                            <h3>${fruit.name}</h3>
+                            <p>Price: $${fruit.price.toFixed(2)} each</p>
+                            <p class="quantity">${fruit.quantity} Available</p>
+                            <p>Harvest Date: ${fruit.harvestDate}</p>
+                        `;
+            // Add color class based on quantity
+            const quantityElement = card.querySelector(".quantity");
+            if (fruit.quantity > 9) {
+              quantityElement.classList.add("green");
+            } else if (fruit.quantity >= 5) {
+              quantityElement.classList.add("yellow");
+            } else {
+              quantityElement.classList.add("red");
+            }
+            // Add card to container
+            container.appendChild(card);
+          });
+        })
+        .catch((error) => console.error("Error loading fruit data:", error));
+    </script>
+  </body>
+</html>

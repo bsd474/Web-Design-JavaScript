@@ -1,0 +1,26 @@
+[
+    {
+      "name": "Apples",
+      "price": 1.50,
+      "quantity": 12,
+      "harvestDate": "2024-10-18"
+    },
+    {
+      "name": "Oranges",
+      "price": 1.20,
+      "quantity": 8,
+      "harvestDate": "2024-10-17"
+    },
+    {
+      "name": "Bananas",
+      "price": 0.50,
+      "quantity": 20,
+      "harvestDate": "2024-10-16"
+    },
+    {
+      "name": "Grapes",
+      "price": 2.00,
+      "quantity": 5,
+      "harvestDate": "2024-10-15"
+    }
+]
