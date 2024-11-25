@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacts Manager</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        display: flex;
+        height: 100vh;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .left,
+      .right {
+        width: 50%;
+        padding: 10px;
+      }
+      .left {
+        border-right: 2px solid #ccc;
+      }
+      .form-container {
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 10px;
+      }
+      input {
+        width: 95%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        padding: 8px 12px;
+        margin-top: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .contacts-list {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      .contact-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        background-color: #fff;
+      }
+      .contact-item button {
+        background-color: #dc3545;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+      }
+      .contact-item button:hover {
+        background-color: #c82333;
+      }
+      .json-display {
+        background-color: #e9ecef;
+        padding: 10px;
+        border-radius: 5px;
+        white-space: pre-wrap;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+      .requirdStar {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="left">
+      <div class="form-container">
+        <h2>Add New Contact</h2>
+        <div class="form-group">
+          <label>First Name <span class="requirdStar">*</span></label>
+          <input type="text" id="firstName" />
+        </div>
+        <div class="form-group">
+          <label>Last Name <span class="requirdStar">*</span></label>
+          <input type="text" id="lastName" />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="text" id="email" />
+        </div>
+        <div class="form-group">
+          <label>Phone Number <span class="requirdStar">*</span></label>
+          <input type="text" id="phone" />
+        </div>
+        <button onclick="addContact()">Add Contact</button>
+      </div>
+      <div class="contacts-list" id="contactsList">
+        <h2>Contacts</h2>
+      </div>
+    </div>
+    <div class="right">
+      <h2>JSON Data</h2>
+      <div id="jsonDisplay" class="json-display"></div>
+    </div>
+
+    <script>
+      // Function to save contacts to local storage
+      function saveData() {
+        localStorage.setItem("contacts", JSON.stringify(contacts));
+      }
+
+      // Function to load contacts from local storage
+      function loadData() {
+        const storedContacts = localStorage.getItem("contacts");
+        if (storedContacts) {
+          contacts = JSON.parse(storedContacts);
+        } else {
+          // If no data exists, initialize with sample data
+          contacts = [
+            {
+              firstName: "John",
+              lastName: "Doe",
+              email: "john@example.com",
+              phone: "123-456-7890",
+            },
+            {
+              firstName: "Jane",
+              lastName: "Smith",
+              email: "Smith@mail.com",
+              phone: "987-654-3210",
+            },
+            {
+              firstName: "Mike",
+              lastName: "Johnson",
+              email: "Mike@mail.com",
+              phone: "987-654-3210",
+            },
+          ];
+          saveData(); // Save the initial data to local storage
+        }
+      }
+
+      // Function to display the contacts list and JSON
+      function displayContacts() {
+        const contactsList = document.getElementById("contactsList");
+        const jsonDisplay = document.getElementById("jsonDisplay");
+
+        // Clear existing list
+        contactsList.innerHTML = "<h2>Contacts</h2>";
+
+        // Sort contacts alphabetically by last name
+        contacts.sort((a, b) => a.lastName.localeCompare(b.lastName));
+
+        // Display each contact
+        contacts.forEach((contact, index) => {
+          const contactItem = document.createElement("div");
+          contactItem.classList.add("contact-item");
+          contactItem.innerHTML = `
+                      ${contact.firstName} ${contact.lastName} <br> ${contact.email} <br> ${contact.phone}
+                      <button onclick="deleteContact(${index})">Delete</button>
+                  `;
+          contactsList.appendChild(contactItem);
+        });
+
+        // Display JSON data
+        jsonDisplay.textContent = JSON.stringify(contacts, null, 2);
+      }
+
+      // Function to add a new contact
+      function addContact() {
+        const fName = document.getElementById("firstName").value;
+        const lName = document.getElementById("lastName").value;
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+
+        // Validate form fields
+        if (fName === "" || lName === "" || phone === "") {
+          alert("All fields are required");
+          return;
+        }
+
+        // Add new contact to the list
+        contacts.push({
+          firstName: fName,
+          lastName: lName,
+          email: email,
+          phone: phone,
+        });
+
+        // Save data to local storage
+        saveData();
+
+        // Display updated contacts
+        displayContacts();
+
+        // Clear form fields
+        clearForm();
+      }
+
+      // Function to delete a contact
+      function deleteContact(index) {
+        // Remove the contact from the list
+        contacts.splice(index, 1);
+
+        // Save data to local storage
+        saveData();
+
+        // Display updated contacts
+        displayContacts();
+      }
+
+      // Function to clear form fields
+      function clearForm() {
+        document.getElementById("firstName").value = "";
+        document.getElementById("lastName").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("phone").value = "";
+      }
+
+      // Load data and initialize the display when the page loads
+      let contacts = [];
+      loadData();
+      displayContacts();
+
+      // destroy the local storage when the page is reloaded temporarily for testing
+      //   window.onbeforeunload = function () {
+      //     localStorage.removeItem("contacts");
+      //   };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookie Demo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f4f4f4;
+        padding: 50px;
+      }
+      .greeting {
+        font-size: 50px;
+        color: #3498db;
+        margin-top: 50px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #e74c3c;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #c0392b;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content"></div>
+    <button onclick="deleteCookie('username')">Delete Cookie</button>
+  </body>
+
+  <script>
+    // define a function to get cookie
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+    // define a function to set cookie
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        expires = `; expires=${date.toUTCString()}`;
+      }
+      document.cookie = `${name}=${value || ""}${expires}; path=/`;
+    }
+    // define a function to delete cookie
+    function deleteCookie(name) {
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      location.reload();
+    }
+    // define a function to check if cookie exists
+    function checkCookie() {
+      const username = getCookie("username");
+      if (username) {
+        document.getElementById(
+          "content"
+        ).innerHTML = `<div class="greeting">Hello, ${username}!</div>`;
+      } else {
+        const name = prompt("Please enter your name:");
+        if (name) {
+          setCookie("username", name, 7); // Set cookie for 7 days
+          document.getElementById(
+            "content"
+          ).innerHTML = `<div class="greeting">Hello, ${name}!</div>`;
+        }
+      }
+    }
+    // define a function to display greeting message
+    checkCookie();
+  </script>
+</html>
