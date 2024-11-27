@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3x3 Drag and Drop Puzzle</title>
+    <style>
+      body {
+        background-color: black;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        color: white;
+      }
+      .puzzle-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(3, 100px);
+        gap: 5px;
+        background-color: #555;
+        padding: 10px;
+        border-radius: 10px;
+      }
+      .puzzle-slot {
+        width: 100px;
+        height: 100px;
+        background-color: #888;
+        border: 2px solid #444;
+        border-radius: 5px;
+        position: relative;
+      }
+      .puzzle-slot.hovered {
+        border-color: #fff;
+      }
+      .puzzle-piece {
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        cursor: grab;
+      }
+      #scrambleButton {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #e74c3c;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      #scrambleButton:hover {
+        background-color: #c0392b;
+      }
+      #message {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="puzzle-container">
+      <div id="piecesContainer">
+        <!-- Puzzle pieces will be randomly placed here -->
+      </div>
+      <div class="puzzle-grid" id="puzzleGrid">
+        <div class="puzzle-slot" data-position="0"></div>
+        <div class="puzzle-slot" data-position="1"></div>
+        <div class="puzzle-slot" data-position="2"></div>
+        <div class="puzzle-slot" data-position="3"></div>
+        <div class="puzzle-slot" data-position="4"></div>
+        <div class="puzzle-slot" data-position="5"></div>
+        <div class="puzzle-slot" data-position="6"></div>
+        <div class="puzzle-slot" data-position="7"></div>
+        <div class="puzzle-slot" data-position="8"></div>
+      </div>
+    </div>
+    <button id="scrambleButton">Scramble Puzzle</button>
+    <!-- add display div for the message -->
+    <div id="message"></div>
+
+    <script>
+      const piecesContainer = document.getElementById("piecesContainer");
+      const puzzleGrid = document.getElementById("puzzleGrid");
+      const pieces = [];
+      const congrats = document.getElementById("message");
+
+      // Create puzzle pieces
+      for (let i = 0; i < 9; i++) {
+        const piece = document.createElement("img");
+        piece.src = `images/piece${i + 1}.jpg`; // Image path (replace with your images)
+        piece.classList.add("puzzle-piece");
+        piece.draggable = true;
+        piece.dataset.index = i;
+        pieces.push(piece);
+      }
+
+      // Add event listeners to each puzzle piece
+      pieces.forEach((piece) => {
+        piece.addEventListener("dragstart", dragStart);
+      });
+
+      // Initialize slots with drag events
+      const slots = document.querySelectorAll(".puzzle-slot");
+      slots.forEach((slot) => {
+        slot.addEventListener("dragover", dragOver);
+        slot.addEventListener("dragleave", dragLeave);
+        slot.addEventListener("drop", dropPiece);
+      });
+
+      // Scramble Button
+      document
+        .getElementById("scrambleButton")
+        .addEventListener("click", scramblePieces);
+
+      function scramblePieces() {
+        pieces.forEach((piece) => {
+          // Randomize the position on the page
+          const randomX = Math.floor(Math.random() * (window.innerWidth - 100));
+          const randomY = Math.floor(
+            Math.random() * (window.innerHeight - 100)
+          );
+          piece.style.top = `${randomY}px`;
+          piece.style.left = `${randomX}px`;
+          piece.style.position = "absolute";
+
+          // Append each piece to the body
+          document.body.appendChild(piece);
+        });
+        // remove the message
+        congrats.innerHTML = "";
+      }
+
+      function dragStart(event) {
+        event.dataTransfer.setData("text/plain", event.target.dataset.index);
+      }
+
+      function dragOver(event) {
+        event.preventDefault();
+        event.target.classList.add("hovered");
+      }
+
+      function dragLeave(event) {
+        event.target.classList.remove("hovered");
+      }
+
+      function dropPiece(event) {
+        // Prevent the default behavior (e.g., stopping the browser from opening the image)
+        event.preventDefault();
+
+        // Retrieve the index of the dragged piece from the data transfer object
+        const pieceIndex = event.dataTransfer.getData("text/plain");
+
+        // Find the piece in the list of pieces using the stored index
+        const piece = pieces.find((p) => p.dataset.index === pieceIndex);
+
+        // Check if the target area is a puzzle slot and is currently empty
+        if (
+          event.target.classList.contains("puzzle-slot") &&
+          !event.target.firstChild
+        ) {
+          // Attach the dragged piece to the puzzle slot, so it snaps into place
+          event.target.appendChild(piece);
+
+          // Adjust the position of the piece to make sure it aligns within the slot
+          piece.style.position = "relative";
+          piece.style.top = "0";
+          piece.style.left = "0";
+
+          // Print the current order of placed pieces to the console
+          printPlacedOrder();
+        }
+
+        // Remove the 'hovered' class to reset the appearance of the slot
+        event.target.classList.remove("hovered");
+      }
+
+      // Function to print the current order of placed pieces
+      function printPlacedOrder() {
+        const slots = document.querySelectorAll(".puzzle-slot");
+        const placedOrder = [];
+
+        // Loop through each slot to check if there is a piece inside
+        slots.forEach((slot) => {
+          if (slot.firstChild) {
+            // Add the index of the placed piece to the order array
+            placedOrder.push(slot.firstChild.dataset.index);
+          }
+        });
+        // check if the order is correct
+        // alert("Congratulations! You solved the puzzle!");
+
+        if (placedOrder.length === 9) {
+          let isCorrect = true;
+          for (let i = 0; i < placedOrder.length; i++) {
+            if (placedOrder[i] != i) {
+              isCorrect = false;
+              break;
+            }
+          }
+          if (isCorrect) {
+            congrats.innerHTML = "Congratulations! You solved the puzzle!";
+          }
+        }
+        // Print the order of pieces that have been placed into slots
+        console.log("Placed Pieces Order:", placedOrder);
+      }
+
+      // Initial scramble
+      scramblePieces();
+    </script>
+  </body>
+</html>
