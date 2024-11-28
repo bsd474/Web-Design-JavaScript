@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag to Delete Grocery List</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f8f9fa;
+        color: #333;
+      }
+      .container {
+        display: flex;
+        width: 80%;
+        height: 80vh;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: #fff;
+      }
+      .left,
+      .right {
+        width: 50%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .left {
+        border-right: 2px solid #ccc;
+      }
+      h2 {
+        margin-top: 0;
+      }
+      .form-group {
+        margin-bottom: 10px;
+      }
+      input {
+        width: 80%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+      button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .grocery-list {
+        padding: 0;
+        list-style: none;
+      }
+      .grocery-item {
+        padding: 10px;
+        margin-bottom: 5px;
+        background-color: #e9ecef;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: grab;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .grocery-item.dragging {
+        opacity: 0.5;
+      }
+      .delete-zone {
+        height: 40px;
+        text-align: center;
+        align-content: center;
+        padding: 10px;
+        border: 1px solid #dc3545;
+        color: #dc3545;
+        border-radius: 5px;
+        margin-top: 20px;
+        display: block;
+        align-items: center;
+        justify-content: center;
+      }
+      .delete-zone.visible {
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left">
+        <h2>Add Grocery Item</h2>
+        <div class="form-group">
+          <input
+            type="text"
+            id="groceryInput"
+            placeholder="Enter grocery item"
+          />
+          <button onclick="addGroceryItem()">Add</button>
+        </div>
+      </div>
+      <div class="right">
+        <h2>Grocery List</h2>
+        <ul id="groceryList" class="grocery-list">
+          <li class="grocery-item" draggable="true">Apples</li>
+          <li class="grocery-item" draggable="true">Bananas</li>
+          <li class="grocery-item" draggable="true">Carrots</li>
+        </ul>
+        <div id="deleteZone" class="delete-zone">Drop Here to Delete</div>
+      </div>
+    </div>
+
+    <script>
+      const groceryList = document.getElementById("groceryList");
+      const deleteZone = document.getElementById("deleteZone");
+
+      // Make grocery items draggable
+      groceryList.addEventListener("dragstart", (event) => {
+        // add dragging class
+
+        event.target.classList.add("dragging");
+      });
+
+      groceryList.addEventListener("dragend", (event) => {
+        // remove dragging class
+        event.target.classList.remove("dragging");
+      });
+
+      // Show delete zone when dragging over it
+      deleteZone.addEventListener("dragover", (event) => {
+        // show the delete zone
+        event.preventDefault();
+        deleteZone.classList.add("visible");
+      });
+
+      // Remove item when dropped in delete zone
+      deleteZone.addEventListener("drop", (event) => {
+        const draggedItem = document.querySelector(".dragging");
+        if (draggedItem) {
+          draggedItem.remove();
+          deleteZone.classList.remove("visible");
+        }
+      });
+
+      // Function to add a new grocery item
+      function addGroceryItem() {
+        const input = document.getElementById("groceryInput");
+        const itemName = input.value.trim();
+        if (itemName) {
+          const newItem = document.createElement("li");
+          newItem.classList.add("grocery-item");
+          newItem.textContent = itemName;
+          newItem.setAttribute("draggable", "true");
+          groceryList.appendChild(newItem);
+          input.value = ""; // Clear input field
+        }
+      }
+    </script>
+  </body>
+</html>
