@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jQuery Grid Challenge</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f4f4f4;
+        margin: 0;
+        flex-direction: column;
+      }
+      h1 {
+        margin-bottom: 20px;
+      }
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(30, 20px);
+        grid-template-rows: repeat(30, 20px);
+        gap: 1px;
+      }
+      .square {
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border: 1px solid #ccc;
+      }
+      .black {
+        background-color: black !important;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>jQuery Grid Challenge</h1>
+    <div class="grid-container"></div>
+    <script>
+      $(document).ready(function () {
+        // Create the grid
+        for (let i = 0; i < 900; i++) {
+          $(".grid-container").append("<div class='square'></div>");
+        }
+
+        // Your script goes here.
+        $(".square").on("click", function () {
+          $(this).toggleClass("black");
+        });
+      });
+    </script>
+  </body>
+</html>

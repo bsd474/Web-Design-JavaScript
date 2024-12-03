@@ -1,69 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Interactive jQuery Activity</title>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-        }
-        .container {
-            width: 300px;
-        }
-        button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .text {
-            color: #333;
-            font-size: 18px;
-        }
-        .box {
-            width: 100px;
-            height: 100px;
-            background-color: #007bff;
-            margin: 20px auto;
-        }
-        #dataContainer {
-            padding: 10px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            display: none;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+      }
+      .container {
+        width: 300px;
+      }
+      button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .text {
+        color: #333;
+        font-size: 18px;
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: #007bff;
+        margin: 20px auto;
+      }
+      #dataContainer {
+        padding: 10px;
+        background-color: #e9ecef;
+        border-radius: 5px;
+        display: none;
+      }
     </style>
-</head>
-<body>
-<div class="container">
-    <h1>Interactive jQuery Page</h1>
-    <button id="changeColor">Change Color</button>
-    <p class="text">Click the button to change my color!</p>
-    <input type="text" id="nameInput" placeholder="Enter your name">
-    <button id="greet">Greet Me!</button>
-    <p id="greeting"></p>
-    <button id="toggleBox">Toggle Box</button>
-    <div class="box"></div>
-    <button id="loadData">Load Data</button>
-    <div id="dataContainer"></div>
-</div>
-<script>
-    // Your jQuery code will go here
-</script>
-</body>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Interactive jQuery Page</h1>
+      <button id="changeColor">Change Color</button>
+      <p class="text">Click the button to change my color!</p>
+      <input type="text" id="nameInput" placeholder="Enter your name" />
+      <button id="greet">Greet Me!</button>
+      <p id="greeting"></p>
+      <button id="toggleBox">Toggle Box</button>
+      <div class="box"></div>
+      <button id="loadData">Load Data</button>
+      <div id="dataContainer"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      // Your jQuery code will go here
+
+      $(document).ready(function () {
+        //   Part 1: Change Text Color
+        $("#changeColor").click(function () {
+          $(".text").css("color", "red");
+        });
+
+        // Part 2: Handle Form Input
+
+        $("#greet").click(function () {
+          const name = $("#nameInput").val();
+          if (name) {
+            $("#greeting").text(`Hello, ${name}!`);
+          } else {
+            $("#greeting").text("Please enter your name.");
+          }
+        });
+
+        // Part 3: Toggle Box Animation
+
+        $("#toggleBox").click(function () {
+          $(".box").slideToggle();
+        });
+
+        // Part 4: Make an AJAX Request
+
+        $("#loadData").click(function () {
+          $.ajax({
+            url: "https://jsonplaceholder.typicode.com/posts/1",
+            method: "GET",
+            success: function (data) {
+              $("#dataContainer").html(
+                `<h3>${data.title}</h3><p>${data.body}</p>`
+              );
+              $("#dataContainer").fadeIn();
+            },
+            error: function () {
+              alert("Failed to load data.");
+            },
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
