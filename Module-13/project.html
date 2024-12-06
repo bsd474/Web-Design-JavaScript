@@ -254,7 +254,7 @@
       }
 
       // Display categories and their sites
-      function displayCategories() {
+      function displaySites() {
         const data = loadData();
         const categories = document.getElementById("categories");
         categories.innerHTML = ""; // Clear all categories content
@@ -297,7 +297,7 @@
           if (!data.categories.includes(catName)) {
             data.categories.push(catName);
             saveData(data);
-            displayCategories();
+            displaySites();
           } else {
             alert("Category already exists");
           }
@@ -335,7 +335,7 @@
             category: category,
           });
           saveData(data);
-          displayCategories();
+          displaySites();
           // Reset form fields
           document.getElementById("siteName").value = "";
           document.getElementById("siteLink").value = "";
@@ -352,7 +352,7 @@
           const data = loadData();
           data.sites = data.sites.filter((site) => site.id !== siteId);
           saveData(data);
-          displayCategories();
+          displaySites();
         }
       });
 
@@ -371,7 +371,7 @@
           // Remove the site from the data
           data.sites = data.sites.filter((site) => site.id !== siteId);
           saveData(data);
-          displayCategories();
+          displaySites();
 
           // Change the "Add Site" button text and color
           const addSiteButton = document.getElementById("addSite");
@@ -393,7 +393,7 @@
                 category: category,
               });
               saveData(data);
-              displayCategories();
+              displaySites();
 
               // Reset the form and button to default state
               document.getElementById("siteName").value = "";
@@ -408,7 +408,7 @@
       });
 
       // Initial rendering
-      displayCategories();
+      displaySites();
       populateCategoriesDropdown(); // Populate the dropdown on page load
     </script>
   </body>
