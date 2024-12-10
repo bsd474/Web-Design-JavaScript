@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+    <style type="text/css">
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .square {
+        height: 50px;
+        width: 50px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        background-color: #fff;
+        color: #fff;
+        font-size: 40px;
+        line-height: 50px;
+        text-align: center;
+        text-shadow: 0px 5px 10px #000;
+      }
+
+      .square:hover {
+        background-color: #ccc;
+      }
+
+      .main {
+        width: 200px;
+        height: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+    </style>
+
+    <title>HTML, CSS and JavaScript demo</title>
+  </head>
+  <body>
+    <h1 style="text-align: center">Play Tic-Tac-Toe</h1>
+    <div class="main">
+      <table>
+        <tbody>
+          <tr>
+            <!-- change id name to A + number  -->
+            <td><div class="square" id="A1" onclick="play(this.id)"></div></td>
+            <td><div class="square" id="A2" onclick="play(this.id)"></div></td>
+            <td><div class="square" id="A3" onclick="play(this.id)"></div></td>
+          </tr>
+          <tr>
+            <td><div class="square" id="A4" onclick="play(this.id)"></div></td>
+            <td><div class="square" id="A5" onclick="play(this.id)"></div></td>
+            <td><div class="square" id="A6" onclick="play(this.id)"></div></td>
+          </tr>
+          <tr>
+            <td><div class="square" id="A7" onclick="play(this.id)"></div></td>
+            <td><div class="square" id="A8" onclick="play(this.id)"></div></td>
+            <td><div class="square" id="A9" onclick="play(this.id)"></div></td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="turncontainer">
+        <h2>
+          <div class="square" style="display: inline-block" id="turn"></div>
+          turn.
+        </h2>
+      </div>
+    </div>
+
+    <script>
+      // Write JavaScript here
+      // turn variable to track of the player turn
+      let turn = "x";
+      // get the element by id to change the innerHTML of player turn
+      let player = document.getElementById("turn");
+
+      // array to keep track of the winner empty by default
+      let winner = [];
+
+      // restart button function
+      function restartBtn() {
+        let restart = document.createElement("button");
+        restart.innerHTML = "Restart";
+        restart.style.display = "block";
+        restart.style.margin = "auto";
+        restart.style.backgroundColor = "green";
+        restart.style.color = "white";
+        restart.style.padding = "10px";
+        document.body.appendChild(restart);
+        restart.addEventListener("click", function () {
+          location.reload();
+        });
+      }
+      // create winning combinations function
+      function checkWinner() {
+        // get the h2 element to change turn text and display the winner message
+        let whoWon = document.querySelector("h2");
+        // loop into squares 9 times
+        for (let i = 1; i < 10; i++) {
+          // get the innerHTML of the squares and store them in the array
+          winner[i] = document.getElementById("A" + i).innerHTML;
+        }
+        // console.log(winner);
+        // check if the Horizontal squares are equal to each other
+        if (
+          winner[1] == winner[2] &&
+          winner[2] == winner[3] &&
+          winner[1] != ""
+        ) {
+          //   console.log("it's working fine");
+          // if won change the innerHTML of the h2 element to the winner
+          whoWon.innerHTML = `The winner is ${winner[1]}`;
+
+          restartBtn();
+        } else if (
+          winner[4] == winner[5] &&
+          winner[5] == winner[6] &&
+          winner[4] != ""
+        ) {
+          whoWon.innerHTML = `The winner is ${winner[4]}`;
+          restartBtn();
+        } else if (
+          winner[7] == winner[8] &&
+          winner[8] == winner[9] &&
+          winner[7] != ""
+        ) {
+          whoWon.innerHTML = `The winner is ${winner[7]}`;
+          restartBtn();
+        }
+
+        // check if vertical squares are equal to each other
+        else if (
+          winner[1] == winner[4] &&
+          winner[4] == winner[7] &&
+          winner[1] != ""
+        ) {
+          whoWon.innerHTML = `The winner is ${winner[1]}`;
+          restartBtn();
+        } else if (
+          winner[2] == winner[5] &&
+          winner[5] == winner[8] &&
+          winner[2] != ""
+        ) {
+          whoWon.innerHTML = `The winner is ${winner[2]}`;
+          restartBtn();
+        } else if (
+          winner[3] == winner[6] &&
+          winner[6] == winner[9] &&
+          winner[3] != ""
+        ) {
+          whoWon.innerHTML = `The winner is ${winner[3]}`;
+          restartBtn();
+        }
+
+        // check diagonal squares are equal to each other
+        else if (
+          winner[1] == winner[5] &&
+          winner[5] == winner[9] &&
+          winner[1] != ""
+        ) {
+          whoWon.innerHTML = `The winner is ${winner[1]}`;
+          restartBtn();
+        } else if (
+          winner[3] == winner[5] &&
+          winner[5] == winner[7] &&
+          winner[3] != ""
+        ) {
+          whoWon.innerHTML = `The winner is ${winner[3]}`;
+          restartBtn();
+        }
+        // Check for a tie
+        else {
+          let noWinner = true; // no winner by default
+
+          // Loop through winner array for any empty square
+          for (let i = 1; i < 10; i++) {
+            if (winner[i] === "") {
+              noWinner = false; // There is an empty square
+              break; // Stop checking further
+            }
+          }
+
+          // If no empty squares, it's a tie
+          if (noWinner) {
+            whoWon.innerHTML = "It's a tie!";
+            restartBtn();
+          }
+        }
+      }
+
+      // play function take the id as argument and change the innerHTML of the id to turn
+      function play(id) {
+        // check if the id clicked and empty
+        let element = document.getElementById(id);
+        if (turn === "x" && element.innerHTML == "") {
+          // change the innerHTML of the element to "x"
+          element.innerHTML = "x";
+          // change the turn to "o"
+          turn = "o";
+          // change the innerHTML of the player to "o"
+          player.innerHTML = "o";
+        } else if (turn === "o" && element.innerHTML == "") {
+          // change the innerHTML of the element to "o"
+          element.innerHTML = "o";
+          // change the turn to "x"
+          turn = "x";
+          // change the innerHTML of the player to "x"
+          player.innerHTML = "x";
+        }
+        // call the checkWinner function
+        checkWinner();
+      }
+    </script>
+  </body>
+</html>
